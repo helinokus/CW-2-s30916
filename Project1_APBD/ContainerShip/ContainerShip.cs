@@ -18,17 +18,38 @@ public class ContainerShip
     }
 
 
-    public void addContainer(Container container)
+    public void AddContainer(Container container)
     {
         _Containers.Add(container);
     }
 
-    public void removeContainer(Container container)
+    public void RemoveContainer(Container container)
     {
         _Containers.Remove(container);
     }
 
-    public List<Container> allContainers()
+    public void SwapContainers(string from, string to, List<Container> containers)
+    {
+        int idFrom = _Containers.FindIndex(s=> s.SerialNumber.EndsWith(from));
+        Container? c = containers.Find(s=> s.SerialNumber.EndsWith(to));
+        if (c != null)
+        {
+            _Containers.RemoveAt(idFrom);
+            _Containers.Insert(idFrom, c);
+        }
+        else
+        {
+            Console.WriteLine($"No such container for {from} or {to}");
+        }
+        
+    }
+
+    public void SwapShips(string to, List<Container> containers)
+    {
+        
+    }
+
+    public List<Container> AllContainers()
     {
         return _Containers;
     }

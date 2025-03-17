@@ -2,7 +2,8 @@ namespace Project1_APBD.Containers;
 
 public abstract class Container
 {
-    private static int _id = 0;
+    private static Dictionary<string, int> _idCounters = new Dictionary<string, int>(); // Отдельный счетчик для каждого типа
+
     public double MassOfProducts { get; set; }
     public double Height { get; set; }
     public double OwnMass { get; set; }
@@ -10,11 +11,16 @@ public abstract class Container
     public string SerialNumber { get; set; }
     public double MaxLoad { get; set; }
 
-    public string CreateSerialNumber(String s)
+    private string CreateSerialNumber(string type)
     {
-        int id = _id + 1;
-        _id = id;
-        return "KON-" + s + "-" + id;
+        if (!_idCounters.ContainsKey(type))
+        {
+            _idCounters[type] = 0; 
+        }
+
+        _idCounters[type]++; 
+
+        return $"KON-{type}-{_idCounters[type]}";
     }
 
     protected Container(string s, double height, double ownMass, double depth, double maxLoad)
