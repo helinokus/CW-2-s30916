@@ -6,7 +6,8 @@ public class FridgeContainer : Container
     public double Temperature { get; set; }
     private Dictionary<string, double> _Fridge { get; set; } = new Dictionary<string, double>();
 
-    public FridgeContainer(double height, double ownMass, double depth, double maxLoad, string typeOfProduct, double temperature) : base("C", height, ownMass, depth, maxLoad)
+    public FridgeContainer(double height, double ownMass, double depth, double maxLoad, string typeOfProduct)
+        : base("C", height, ownMass, depth, maxLoad)
     {
         
         
@@ -16,7 +17,7 @@ public class FridgeContainer : Container
             throw new Exception($"Fridge type {typeOfProduct} does not exist.");
         }
         TypeOfProduct = typeOfProduct;
-        Temperature = temperature;
+        Temperature = _Fridge[typeOfProduct];
         
     }
 
