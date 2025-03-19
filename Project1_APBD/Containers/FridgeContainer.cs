@@ -6,8 +6,8 @@ public class FridgeContainer : Container
     public double Temperature { get; set; }
     private Dictionary<string, double> _Fridge { get; set; } = new Dictionary<string, double>();
 
-    public FridgeContainer(double height, double ownMass, double depth, double maxLoad, string typeOfProduct)
-        : base("C", height, ownMass, depth, maxLoad)
+    public FridgeContainer(double height, double depth, double maxLoad, string typeOfProduct)
+        : base("C", height, 111, depth, maxLoad)
     {
         FillDictionary();
         if (!_Fridge.ContainsKey(typeOfProduct))

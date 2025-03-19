@@ -22,8 +22,6 @@ using Project1_APBD.Navigation;
 //
 // navigation.GetAllContainers();
 CommandNavigation commandNavigation = new CommandNavigation();
-while (true)
-{
+
     commandNavigation.StartNavigation();
-    
-}
+

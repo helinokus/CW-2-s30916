@@ -3,7 +3,7 @@ namespace Project1_APBD.Containers;
 public abstract class Container
 {
     private static Dictionary<string, int>
-        _idCounters = new Dictionary<string, int>(); // Отдельный счетчик для каждого типа
+        _idCounters = new Dictionary<string, int>(); 
 
     public double MassOfProducts { get; set; }
     public double Height { get; set; }

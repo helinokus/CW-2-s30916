@@ -23,9 +23,17 @@ public class ContainerShip
 
     public void AddContainer(Container container)
     {
-        if (Containers.Count >= MaxCountOfContainers)
+        double weight = 0;
+        foreach (Container container1 in Containers)
         {
-            Console.WriteLine("You cant add containers");
+            weight += container1.MassOfProducts;
+        }
+
+        weight += container.MassOfProducts;
+
+        if (Containers.Count >= MaxCountOfContainers && weight >= MaxWeightOfContainers)
+        {
+            Console.WriteLine("You cant add container");
             return;
         }
 
@@ -76,7 +84,22 @@ public class ContainerShip
 
     public void AllContainers()
     {
+        foreach (Container container in Containers)
+        {
+            Console.WriteLine(container);
+        }
     }
+
+    public bool IsContainers()
+    {
+        if (Containers.Count>0)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    
 
 
     public override string ToString()

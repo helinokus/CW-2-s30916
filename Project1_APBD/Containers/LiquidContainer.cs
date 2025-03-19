@@ -7,8 +7,8 @@ namespace Project1_APBD.Containers
     {
         public bool IsHazardous { get; }
 
-        public LiquidContainer(bool isHazardous, double height, double ownMass, double depth, double maxLoad)
-            : base("L", height, ownMass, depth, maxLoad)
+        public LiquidContainer(bool isHazardous, double height, double depth, double maxLoad)
+            : base("L", height, 100, depth, maxLoad)
         {
             IsHazardous = isHazardous;
         }

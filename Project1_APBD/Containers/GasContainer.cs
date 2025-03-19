@@ -6,10 +6,11 @@ namespace Project1_APBD.Containers;
 public class GasContainer : Container, IHazardNotifier
 {
     public double Pressure { get; } 
-    public GasContainer( double pressure,double height, double ownMass, double depth, double maxLoad) : base("G", height, ownMass, depth, maxLoad)
+    public GasContainer( double pressure,double height, double depth, double maxLoad) : base("G", height, 125, depth, maxLoad)
     {
         Pressure = pressure;
     }
+    
 
     public override void UnloadContainer()
     {

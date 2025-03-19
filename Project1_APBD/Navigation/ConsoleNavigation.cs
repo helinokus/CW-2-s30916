@@ -6,6 +6,7 @@ public class ConsoleNavigation : IConsoleNavigation
 {
     protected List<Container> Containers { get; set; } = new List<Container>();
     protected List<ContainerShip.ContainerShip> ContainerShips { get; set; } = new List<ContainerShip.ContainerShip>();
+    protected List<Container> FreeContainers { get; set; } = new List<Container>();
 
     public ContainerShip.ContainerShip CreateContainerShip(double speed, int maxCountOfContainers,
         double maxWeightOfContainers)
@@ -14,23 +15,29 @@ public class ConsoleNavigation : IConsoleNavigation
         return ContainerShips.Last();
     }
 
-    public LiquidContainer CreateLiquidContainer(bool isHazardous, double height, double ownMass, double depth,
+    public LiquidContainer CreateLiquidContainer(bool isHazardous, double height, double depth,
         double maxLoad)
     {
-        Containers.Add(new LiquidContainer(isHazardous, height, ownMass, depth, maxLoad));
+        LiquidContainer liquidContainer = new LiquidContainer(isHazardous, height, depth, maxLoad);
+        Containers.Add(liquidContainer);
+        FreeContainers.Add(liquidContainer);
         return (LiquidContainer)Containers.Last();
     }
 
-    public GasContainer CreateGasContainer(double pressure, double height, double ownMass, double depth, double maxLoad)
+    public GasContainer CreateGasContainer(double pressure, double height, double depth, double maxLoad)
     {
-        Containers.Add(new GasContainer(pressure, height, ownMass, depth, maxLoad));
+        GasContainer gasContainer = new GasContainer(pressure, height, depth, maxLoad);
+        Containers.Add(gasContainer);
+        FreeContainers.Add(gasContainer);
         return (GasContainer)Containers.Last();
     }
 
-    public FridgeContainer CreateFridgeContainer(double height, double ownMass, double depth, double maxLoad,
+    public FridgeContainer CreateFridgeContainer(double height, double depth, double maxLoad,
         string typeOfProduct)
     {
-        Containers.Add(new FridgeContainer(height, ownMass, depth, maxLoad, typeOfProduct));
+        FridgeContainer fridgeContainer = new FridgeContainer(height, depth, maxLoad, typeOfProduct);
+        Containers.Add(fridgeContainer);
+        FreeContainers.Add(fridgeContainer);
         return (FridgeContainer)Containers.Last();
     }
 
@@ -50,7 +57,15 @@ public class ConsoleNavigation : IConsoleNavigation
     {
         ContainerShip.ContainerShip ship = ContainerShips[shipNumber - 1];
         Container container = Containers[containerNumber - 1];
-        ship.AddContainer(container);
+        if (FreeContainers.Contains(container))
+        {
+            ship.AddContainer(container);
+            FreeContainers.Remove(container);
+        }
+        else
+        {
+            Console.WriteLine($"Container {container} already loaded ");
+        }
     }
 
     public void RemoveContainerFromShip(int containerNumber, int shipNumber)
@@ -58,6 +73,7 @@ public class ConsoleNavigation : IConsoleNavigation
         ContainerShip.ContainerShip ship = ContainerShips[shipNumber - 1];
         Container container = Containers[containerNumber - 1];
         ship.RemoveContainer(container);
+        FreeContainers.Add(container);
     }
 
     public void SwapContainer(int shipNumber, int containerNumber1, int containerNumber2)
@@ -66,7 +82,7 @@ public class ConsoleNavigation : IConsoleNavigation
         Container containerWhich = Containers[containerNumber1];
         Container containerToSwap = Containers[containerNumber2];
         ship.SwapContainers(containerWhich.SerialNumber, containerToSwap.SerialNumber,
-            Containers); //TODO: Change part serial to ALL
+            Containers); 
     }
 
     public void SwapShips(int shipFrom, int shipTo, int contNumber)
@@ -81,7 +97,7 @@ public class ConsoleNavigation : IConsoleNavigation
     {
         foreach (Container container in Containers)
         {
-            Console.WriteLine(container);
+            Console.WriteLine("     " + container);
         }
     }
 
@@ -89,7 +105,53 @@ public class ConsoleNavigation : IConsoleNavigation
     {
         foreach (ContainerShip.ContainerShip ship in ContainerShips)
         {
-            Console.WriteLine(ship);
+            Console.WriteLine("     " + ship);
+        }
+    }
+
+    public bool IsContainers()
+    {
+        if (Containers.Count>0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsShips()
+    {
+        if (ContainerShips.Count>0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsFree()
+    {
+        if (FreeContainers.Count>0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public ContainerShip.ContainerShip GetShipById(int shipId)
+    {
+        return ContainerShips[shipId - 1];
+    }
+
+    public Container GetContainerById(int shipId)
+    {
+        return Containers[shipId - 1];
+    }
+
+    public void AllFreeConteiners()
+    {
+        foreach (Container container in FreeContainers)
+        {
+            Console.WriteLine("    " + container);
+            
         }
     }
 
