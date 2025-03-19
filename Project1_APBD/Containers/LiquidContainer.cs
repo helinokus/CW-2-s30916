@@ -18,11 +18,11 @@ namespace Project1_APBD.Containers
             double maxAllowedLoad;
             if (IsHazardous)
             {
-             maxAllowedLoad = MaxLoad/2;   
+                maxAllowedLoad = MaxLoad / 2;
             }
             else
             {
-                maxAllowedLoad = MaxLoad*0.9;
+                maxAllowedLoad = MaxLoad * 0.9;
             }
 
             if (MassOfProducts + mass > maxAllowedLoad)

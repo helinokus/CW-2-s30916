@@ -13,7 +13,7 @@ public class GasContainer : Container, IHazardNotifier
 
     public override void UnloadContainer()
     {
-        MassOfProducts *= 0.05;
+        MassOfProducts = Math.Round(MassOfProducts * 0.05 , 4);
     }
 
     public override void LoadContainer(double mass)

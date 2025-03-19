@@ -2,7 +2,8 @@ namespace Project1_APBD.Containers;
 
 public abstract class Container
 {
-    private static Dictionary<string, int> _idCounters = new Dictionary<string, int>(); // Отдельный счетчик для каждого типа
+    private static Dictionary<string, int>
+        _idCounters = new Dictionary<string, int>(); // Отдельный счетчик для каждого типа
 
     public double MassOfProducts { get; set; }
     public double Height { get; set; }
@@ -15,10 +16,10 @@ public abstract class Container
     {
         if (!_idCounters.ContainsKey(type))
         {
-            _idCounters[type] = 0; 
+            _idCounters[type] = 0;
         }
 
-        _idCounters[type]++; 
+        _idCounters[type]++;
 
         return $"KON-{type}-{_idCounters[type]}";
     }
@@ -39,6 +40,7 @@ public abstract class Container
         {
             throw new OverflowException("Too much products for this container");
         }
+
         MassOfProducts += mass;
     }
 
@@ -49,6 +51,7 @@ public abstract class Container
 
     public override string ToString()
     {
-        return $"{SerialNumber}:  {MassOfProducts} inside";
+        return
+            $"{SerialNumber}:  {MassOfProducts} inside, {Height}m height, {OwnMass}kg own mass, with depth {Depth}m and max load {MaxLoad}";
     }
 }

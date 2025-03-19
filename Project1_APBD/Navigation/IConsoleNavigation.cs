@@ -5,7 +5,7 @@ namespace Project1_APBD.Navigation;
 public interface IConsoleNavigation
 {
     ContainerShip.ContainerShip CreateContainerShip(double speed, int maxCountOfContainers, double maxWeightOfContainers);
-    LiquidContainer CreateContainer(bool isHazardous, double height, double ownMass, double depth, double maxLoad);
+    LiquidContainer CreateLiquidContainer(bool isHazardous, double height, double ownMass, double depth, double maxLoad);
     GasContainer CreateGasContainer(double pressure,double height, double ownMass, double depth, double maxLoad);
     FridgeContainer CreateFridgeContainer(double height, double ownMass, double depth, double maxLoad,
         string typeOfProduct);

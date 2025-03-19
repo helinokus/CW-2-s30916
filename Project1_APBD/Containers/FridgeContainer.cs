@@ -9,16 +9,14 @@ public class FridgeContainer : Container
     public FridgeContainer(double height, double ownMass, double depth, double maxLoad, string typeOfProduct)
         : base("C", height, ownMass, depth, maxLoad)
     {
-        
-        
         FillDictionary();
         if (!_Fridge.ContainsKey(typeOfProduct))
         {
-            throw new Exception($"Fridge type {typeOfProduct} does not exist.");
+            throw new Exception($"Frsidge type {typeOfProduct} does not exist.");
         }
+
         TypeOfProduct = typeOfProduct;
         Temperature = _Fridge[typeOfProduct];
-        
     }
 
     private void FillDictionary()
@@ -39,10 +37,4 @@ public class FridgeContainer : Container
     {
         return _Fridge;
     }
-    
-    
-    
-    
-    
-    
 }

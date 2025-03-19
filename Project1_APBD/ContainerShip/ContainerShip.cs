@@ -5,7 +5,8 @@ namespace Project1_APBD.ContainerShip;
 
 public class ContainerShip
 {
-    private static int _Id = 0;
+    private static int _lastId = 1;
+    private int _id;
     public List<Container> Containers { get; set; } = new List<Container>();
     public double Speed { get; set; }
     public int MaxCountOfContainers { get; set; }
@@ -13,6 +14,7 @@ public class ContainerShip
 
     public ContainerShip(double speed, int maxCountOfContainers, double maxWeightOfContainers)
     {
+        _id = _lastId++;
         Speed = speed;
         MaxCountOfContainers = maxCountOfContainers;
         MaxWeightOfContainers = maxWeightOfContainers;
@@ -21,8 +23,14 @@ public class ContainerShip
 
     public void AddContainer(Container container)
     {
+        if (Containers.Count >= MaxCountOfContainers)
+        {
+            Console.WriteLine("You cant add containers");
+            return;
+        }
+
         if (!Containers.Contains(container))
-        { 
+        {
             Containers.Add(container);
         }
     }
@@ -34,8 +42,8 @@ public class ContainerShip
 
     public void SwapContainers(string from, string to, List<Container> containers)
     {
-        int idFrom = Containers.FindIndex(s=> s.SerialNumber.EndsWith(from));
-        Container? c = containers.Find(s=> s.SerialNumber.EndsWith(to));
+        int idFrom = Containers.FindIndex(s => s.SerialNumber.Equals(from));
+        Container? c = containers.Find(s => s.SerialNumber.Equals(to));
         if (c != null)
         {
             Containers.RemoveAt(idFrom);
@@ -45,35 +53,34 @@ public class ContainerShip
         {
             Console.WriteLine($"No such container for {from} or {to}");
         }
-        
     }
-    
+
 
     public string SwapShips(string cont, ContainerShip to)
     {
-        Container? c = Containers.Find(s=> s.SerialNumber.EndsWith(cont));
+        Container? c = Containers.Find(s => s.SerialNumber.Equals(cont));
         if (c == null)
         {
             return $"No such container for {cont} or {to}";
         }
+
         to.AddContainer(c);
         Containers.Remove(c);
         return null;
     }
 
-    public List<Container> AllContainers()
+    public void LoadListOfContainers(List<Container> containers)
     {
-        return Containers;
+        throw new NotImplementedException();
     }
 
-    private void IncrementId()
+    public void AllContainers()
     {
-        _Id = ++_Id;
     }
+
 
     public override string ToString()
     {
-        IncrementId();
-        return "Ship " + _Id;
+        return $"Ship {_id} with containers count: {Containers.Count} "; //TODO: сделать какие именно конты
     }
 }
