@@ -104,7 +104,6 @@ namespace Project1_APBD.Navigation
             Console.WriteLine("2. Gas Container");
             Console.WriteLine("3. Fridge Container");
             int type = Convert.ToInt32(Console.ReadLine());
-
             if (type == 1)
             {
                 Console.WriteLine("Is hazardous? (1-yes, 0-no)");
