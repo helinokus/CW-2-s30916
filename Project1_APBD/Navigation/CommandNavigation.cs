@@ -6,7 +6,7 @@ namespace Project1_APBD.Navigation
 {
     public class CommandNavigation
     {
-        private ConsoleNavigation navigation = new ConsoleNavigation();
+        private readonly ConsoleNavigation navigation = new ConsoleNavigation();
 
         public void StartNavigation()
         {
@@ -219,6 +219,7 @@ namespace Project1_APBD.Navigation
             Console.WriteLine("1. Load container");
             Console.WriteLine("2. Unload container");
             string? val = Console.ReadLine();
+            
 
             if (val == "1")
             {
