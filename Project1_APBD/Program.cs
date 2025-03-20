@@ -6,6 +6,7 @@ using Project1_APBD.Navigation;
 
 // ConsoleNavigation navigation = new ConsoleNavigation();
 //
+
 // navigation.CreateContainerShip(1, 5, 1000);
 // navigation.CreateContainerShip(1, 5, 1000);
 // navigation.CreateContainerShip(1, 5, 1000);
