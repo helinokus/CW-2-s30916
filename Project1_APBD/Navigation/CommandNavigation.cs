@@ -1,219 +1,268 @@
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Cryptography;
+using System;
 using Project1_APBD.Containers;
+using Project1_APBD.ContainerShip;
 
-namespace Project1_APBD.Navigation;
-
-public class CommandNavigation
+namespace Project1_APBD.Navigation
 {
-    private ConsoleNavigation navigation = new ConsoleNavigation();
-    
-
-    public void StartNavigation()
+    public class CommandNavigation
     {
-        Console.WriteLine("Starting navigation");
-        Console.WriteLine("1.Create a Ship");
-        string? val = Console.ReadLine();
-        if (val == "1")
+        private ConsoleNavigation navigation = new ConsoleNavigation();
+
+        public void StartNavigation()
         {
-            CreateNewShip();
-            Console.WriteLine("New ship created");
+            Console.WriteLine("Starting navigation");
+            EnterNavigation();
         }
-    }
 
-
-    private void EnterNavigation()
-    {
-        Console.WriteLine("List of ships");
-        navigation.GetAllShips();
-        Console.WriteLine("List of containers");
-        navigation.GetAllContainers();
-        Console.WriteLine("List of commands: ");
-        if (navigation.IsContainers() && navigation.IsShips())
+        private void EnterNavigation()
         {
-            Console.WriteLine("1. Add a Ship");
-            Console.WriteLine("2. Modify ship");
-            Console.WriteLine("3. Add a container");
-            Console.WriteLine("4. Modify container");
-            string? val = Console.ReadLine();
-            if (val == "1")
+            while (true)
             {
-                CreateNewShip();
+                Console.WriteLine("\nList of commands:");
+                Console.WriteLine("\nList of commands:");
+                Console.WriteLine("1. Add a Ship");
+                Console.WriteLine("2. Add a Container");
+                if (navigation.IsShips() && navigation.IsContainers())
+                {
+                    Console.WriteLine("3. Load container to ship");
+                    Console.WriteLine("4. Remove container from ship");
+                    Console.WriteLine("5. Swap containers on ship");
+                    Console.WriteLine("6. Swap containers between ships");
+                    Console.WriteLine("7. Show all containers on a ship");
+                    Console.WriteLine("8. Modify container");
+                    Console.WriteLine("9. Add list of containers");
+                    Console.WriteLine("10. Exit");
+                }
+                else
+                {
+                    Console.WriteLine("3. Exit");
+                }
+
+                string? val = Console.ReadLine();
+                if (val == "1")
+                {
+                    CreateNewShip();
+                }
+                else if (val == "2")
+                {
+                    AddContainer();
+                }
+                else if (val == "3" && navigation.IsShips() && navigation.IsContainers())
+                {
+                    LoadContainerToShip();
+                }
+                else if (val == "4" && navigation.IsShips() && navigation.IsContainers())
+                {
+                    RemoveContainerFromShip();
+                }
+                else if (val == "5" && navigation.IsShips() && navigation.IsContainers())
+                {
+                    SwapContainersOnShip();
+                }
+                else if (val == "6" && navigation.IsShips() && navigation.IsContainers())
+                {
+                    SwapContainersBetweenShips();
+                }
+                else if (val == "7" && navigation.IsShips() && navigation.IsContainers())
+                {
+                    ShowContainersOnShip();
+                }
+                else if (val == "8" && navigation.IsShips() && navigation.IsContainers())
+                {
+                    ModifyContainer();
+                }
+                else if (val == "9" && navigation.IsShips() && navigation.IsContainers())
+                {
+                    LoadListContainers();
+                }
+                else if (val == "10" || val == "3")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input or not enough ships/containers.");
+                }
             }
-            else if (val == "2")
+        }
+
+        private void CreateNewShip()
+        {
+            Console.WriteLine("Write parameters for new ship:");
+            Console.Write("Enter ship's speed: ");
+            double speed = Convert.ToDouble(Console.ReadLine());
+            Console.Write("Enter ship's max amount of containers: ");
+            int maxCountOfContainers = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter max weight of containers: ");
+            double maxWeight = Convert.ToDouble(Console.ReadLine());
+            navigation.CreateContainerShip(speed, maxCountOfContainers, maxWeight);
+            Console.WriteLine("New ship created.");
+        }
+
+        private void AddContainer()
+        {
+            Console.WriteLine("Choose a type of container:");
+            Console.WriteLine("1. Liquid Container");
+            Console.WriteLine("2. Gas Container");
+            Console.WriteLine("3. Fridge Container");
+            int type = Convert.ToInt32(Console.ReadLine());
+
+            if (type == 1)
             {
-                ModifyShips();
+                Console.WriteLine("Is hazardous? (1-yes, 0-no)");
+                bool isHazardous = Convert.ToBoolean(Convert.ToInt32(Console.ReadLine()));
+                Console.WriteLine("Height:");
+                double height = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Depth:");
+                double depth = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Max Load:");
+                double maxLoad = Convert.ToDouble(Console.ReadLine());
+                navigation.CreateLiquidContainer(isHazardous, height, depth, maxLoad);
             }
-            else if (val == "3")
+            else if (type == 2)
             {
-                AddContainer();
+                Console.WriteLine("Pressure amount:");
+                double pressure = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Height:");
+                double height = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Depth:");
+                double depth = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Max Load:");
+                double maxLoad = Convert.ToDouble(Console.ReadLine());
+                navigation.CreateGasContainer(pressure, height, depth, maxLoad);
             }
-            else if (val == "4")
+            else if (type == 3)
             {
-                ModifyContainer();
+                Console.WriteLine("Height:");
+                double height = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Depth:");
+                double depth = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Max Load:");
+                double maxLoad = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Type of product:");
+                string productType = Console.ReadLine();
+                navigation.CreateFridgeContainer(height, depth, maxLoad, productType);
             }
             else
             {
                 Console.WriteLine("Invalid input");
-                EnterNavigation();
             }
         }
-        else if (navigation.IsShips() && !navigation.IsContainers())
-        {
-            Console.WriteLine("1. Add a Ship");
-            Console.WriteLine("2. Modify ship");
-            Console.WriteLine("3. Add a container");
-            int val = Convert.ToInt32(Console.ReadLine());
-            if (val == 1)
-            {
-                CreateNewShip();
-            }
 
-            else if (val == 2)
-            {
-                ModifyShips();
-            }
-            else if (val == 3)
-            {
-                AddContainer();
-            }
+        private void LoadContainerToShip()
+        {
+            Console.WriteLine("Choose a container to load:");
+            navigation.AllFreeContainers();
+            int containerIndex = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Choose a ship to load the container to:");
+            navigation.GetAllShips();
+            int shipNumber = Convert.ToInt32(Console.ReadLine());
+            navigation.LoadContainerToShip(containerIndex, shipNumber);
         }
-    }
 
-    private void ModifyContainer()
-    {
-        Console.WriteLine("List of containers");
-        navigation.GetAllContainers();
-        Console.WriteLine("Choose container");
-        int valCont = Convert.ToInt32(Console.ReadLine());
-        Container container = navigation.GetContainerById(valCont);
-        Console.WriteLine("1. Load container");
-        Console.WriteLine("2. Unload container");
-        int val = Convert.ToInt32(Console.ReadLine());
-        if (val == 1)
+        private void RemoveContainerFromShip()
         {
-            Console.WriteLine("Enter mass");
-            double mass = Convert.ToInt32(Console.ReadLine());
-            container.LoadContainer(mass);
-        }else if (val == 2)
-        {
-            container.UnloadContainer();
+            Console.WriteLine("Choose a ship to remove container from:");
+            navigation.GetAllShips();
+            int shipId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Choose a container to remove:");
+            navigation.GetShipById(shipId).AllContainers();
+            int containerId = Convert.ToInt32(Console.ReadLine());
+            navigation.RemoveContainerFromShip(containerId, shipId);
         }
-        EnterNavigation();
 
-        
-    }
-
-
-    private void ModifyShips()
-    {
-        Console.WriteLine("Choose a ship to modify");
-        navigation.GetAllShips();
-        int value = Convert.ToInt32(Console.ReadLine());
-        ContainerShip.ContainerShip findShip = navigation.GetShipById(value);
-        if (findShip.Containers.Count > 0)
+        private void SwapContainersOnShip()
         {
-            Console.WriteLine("1. Add container");
-            Console.WriteLine("2. Remove container");
-            Console.WriteLine("3. Swap container");
-            int value2 = Convert.ToInt32(Console.ReadLine());
-            if (value2 == 1)
-            {
-                navigation.GetAllContainers();
-                Console.WriteLine("Choose a container");
-                int value3 = Convert.ToInt32(Console.ReadLine());
-                Container findContainer = navigation.GetContainerById(value3);
-                findShip.AddContainer(findContainer);
-            }
-            else if (value2 == 2)
-            {
-                foreach (Container container in findShip.Containers)
-                {
-                    Console.WriteLine(container);
-                }
-
-                Console.WriteLine("Choose a container");
-                int value4 = Convert.ToInt32(Console.ReadLine());
-                findShip.Containers.Remove(findShip.Containers.ElementAt(value4 - 1));
-                findShip.RemoveContainer(findShip.Containers.ElementAt(value4 - 1));
-            }
+            Console.WriteLine("Choose a ship to swap containers on:");
+            navigation.GetAllShips();
+            int shipId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Choose first container to swap:");
+            navigation.GetShipById(shipId).AllContainers();
+            int containerId1 = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Choose second container to swap:");
+            navigation.GetShipById(shipId).AllContainers();
+            int containerId2 = Convert.ToInt32(Console.ReadLine());
+            navigation.SwapContainer(shipId, containerId1, containerId2);
         }
-        else
+
+        private void SwapContainersBetweenShips()
         {
-            Console.WriteLine("You can only add a container, choose which one");
-            if (navigation.IsFree())
+            Console.WriteLine("Choose first ship to swap containers:");
+            navigation.GetAllShips();
+            int shipId1 = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Choose second ship to swap containers:");
+            navigation.GetAllShips();
+            int shipId2 = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Choose container to swap from first ship:");
+            navigation.GetShipById(shipId1).AllContainers();
+            int containerId = Convert.ToInt32(Console.ReadLine());
+            navigation.SwapShips(shipId1, shipId2, containerId);
+        }
+
+        private void ShowContainersOnShip()
+        {
+            Console.WriteLine("Choose a ship to show containers:");
+            navigation.GetAllShips();
+            int shipId = Convert.ToInt32(Console.ReadLine());
+            ContainerShip.ContainerShip ship = navigation.GetShipById(shipId);
+            Console.WriteLine($"Containers on ship {shipId}:");
+            ship.AllContainers();
+        }
+
+        private void ModifyContainer()
+        {
+            Console.WriteLine("Choose a container to modify:");
+            navigation.GetAllContainers();
+            int containerId = Convert.ToInt32(Console.ReadLine());
+            Container container = navigation.GetContainerById(containerId);
+
+            Console.WriteLine("1. Load container");
+            Console.WriteLine("2. Unload container");
+            string? val = Console.ReadLine();
+
+            if (val == "1")
             {
-                navigation.AllFreeConteiners();
-                int valueCont = Convert.ToInt32(Console.ReadLine());
-                Container findContainer = navigation.GetContainerById(valueCont);
-                findShip.AddContainer(findContainer);
-                EnterNavigation();
+                Console.WriteLine("Enter mass to load:");
+                double mass = Convert.ToDouble(Console.ReadLine());
+                container.LoadContainer(mass);
+            }
+            else if (val == "2")
+            {
+                container.UnloadContainer();
             }
             else
             {
-                AddContainer();
+                Console.WriteLine("Invalid input");
             }
         }
-    }
 
-
-    private void CreateNewShip()
-    {
-        Console.WriteLine("Write parametrs for new ship ");
-        Console.Write("Enter ships speed: ");
-        double speed = Convert.ToDouble(Console.ReadLine());
-        Console.Write("Enter ships max amount of containers: ");
-        int maxCountOfContainers = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Enter max weight of containers: ");
-        double MaxWeight = Convert.ToDouble(Console.ReadLine());
-        navigation.CreateContainerShip(speed, maxCountOfContainers, MaxWeight);
-        EnterNavigation();
-    }
-
-    private void AddContainer()
-    {
-        Console.WriteLine("Choose a type of container");
-        Console.WriteLine("1. Liquid Container");
-        Console.WriteLine("2. Gas Container");
-        Console.WriteLine("3. Fridge Container");
-        int type = Convert.ToInt32(Console.ReadLine());
-        if (type == 1)
+        private void LoadListContainers()
         {
-            Console.WriteLine("Is hazardous? (1-yes, 0 - no)");
-            bool value = Convert.ToBoolean(Convert.ToInt32(Console.ReadLine()));
-            Console.WriteLine("Height");
-            double h = Convert.ToDouble(Console.ReadLine());
-            Console.WriteLine("Depth");
-            double d = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Max Load");
-            double maxLoad = Convert.ToDouble(Console.ReadLine());
-            navigation.CreateLiquidContainer(value, h, d, maxLoad);
-        }
-        else if (type == 2)
-        {
-            Console.WriteLine("Pressure amount?");
-            double pressure = Convert.ToDouble(Console.ReadLine());
-            Console.WriteLine("Height");
-            double h = Convert.ToDouble(Console.ReadLine());
-            Console.WriteLine("Depth");
-            double d = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Max Load");
-            double maxLoad = Convert.ToDouble(Console.ReadLine());
-            navigation.CreateGasContainer(pressure, h, d, maxLoad);
-        }
-        else if (type == 3)
-        {
-            Console.WriteLine("Height");
-            double h = Convert.ToDouble(Console.ReadLine());
-            Console.WriteLine("Depth");
-            double d = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Max Load");
-            double maxLoad = Convert.ToDouble(Console.ReadLine());
-            Console.WriteLine("Type");
-            string productType = Console.ReadLine();
-            navigation.CreateFridgeContainer(h, d, maxLoad, productType);
-        }
+            Console.WriteLine("Choose containers to load, separated by spaces:");
+            navigation.AllFreeContainers();
+            string containerIndexesInput = Console.ReadLine();
+            int[] indexes = containerIndexesInput.Split(' ').Select(int.Parse).ToArray();
 
-        EnterNavigation();
+            List<Container> containersToLoad = new List<Container>();
+            foreach (int index in indexes)
+            {
+                if (index > 0 && index <= navigation.FreeContainers.Count)
+                {
+                    containersToLoad.Add(navigation.FreeContainers[index - 1]);
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid container index: {index}");
+                    return;
+                }
+            }
+
+            Console.WriteLine("Choose a ship to load the containers to:");
+            navigation.GetAllShips();
+            int shipNumber = Convert.ToInt32(Console.ReadLine());
+
+
+            navigation.LoadListOfContainers(shipNumber, containersToLoad);
+        }
     }
 }

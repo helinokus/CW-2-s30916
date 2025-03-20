@@ -23,23 +23,20 @@ public class ContainerShip
 
     public void AddContainer(Container container)
     {
-        double weight = 0;
-        foreach (Container container1 in Containers)
+        double totalWeight = Containers.Sum(c => c.MassOfProducts);
+        if (Containers.Count >= MaxCountOfContainers || totalWeight + container.MassOfProducts > MaxWeightOfContainers)
         {
-            weight += container1.MassOfProducts;
-        }
-
-        weight += container.MassOfProducts;
-
-        if (Containers.Count >= MaxCountOfContainers && weight >= MaxWeightOfContainers)
-        {
-            Console.WriteLine("You cant add container");
+            Console.WriteLine("Cannot add container: ship capacity exceeded.");
             return;
         }
 
         if (!Containers.Contains(container))
         {
             Containers.Add(container);
+        }
+        else
+        {
+            Console.WriteLine($"Container {container.SerialNumber} is already on the ship.");
         }
     }
 
@@ -77,9 +74,29 @@ public class ContainerShip
         return null;
     }
 
-    public void LoadListOfContainers(List<Container> containers)
+    public void LoadListOfContainers(List<Container> container)
     {
-        throw new NotImplementedException();
+        if (IsAddList(container))
+        {
+            foreach (var c in container)
+            {
+                AddContainer(c);
+            }
+        }
+    }
+
+    public bool IsAddList(List<Container> container)
+    {
+        double totalWeight = Containers.Sum(c => c.MassOfProducts);
+        double totalWeightOfContainers = Containers.Sum(c => c.MassOfProducts);
+        int countOfContainers = container.Count;
+        int countExistedContainers = Containers.Count;
+        if (MaxWeightOfContainers > totalWeight + totalWeightOfContainers
+            && MaxCountOfContainers >= countOfContainers + countExistedContainers)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void AllContainers()

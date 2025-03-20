@@ -6,7 +6,7 @@ public class ConsoleNavigation : IConsoleNavigation
 {
     protected List<Container> Containers { get; set; } = new List<Container>();
     protected List<ContainerShip.ContainerShip> ContainerShips { get; set; } = new List<ContainerShip.ContainerShip>();
-    protected List<Container> FreeContainers { get; set; } = new List<Container>();
+    public List<Container> FreeContainers { get; set; } = new List<Container>();
 
     public ContainerShip.ContainerShip CreateContainerShip(double speed, int maxCountOfContainers,
         double maxWeightOfContainers)
@@ -53,18 +53,26 @@ public class ConsoleNavigation : IConsoleNavigation
         container.UnloadContainer();
     }
 
-    public void LoadContainerToShip(int containerNumber, int shipNumber)
+    public void LoadContainerToShip(int containerIndex, int shipNumber)
     {
-        ContainerShip.ContainerShip ship = ContainerShips[shipNumber - 1];
-        Container container = Containers[containerNumber - 1];
-        if (FreeContainers.Contains(container))
+        if (containerIndex < 0 || containerIndex - 1 >= FreeContainers.Count)
         {
-            ship.AddContainer(container);
-            FreeContainers.Remove(container);
+            Console.WriteLine("Invalid container index.");
+            return;
+        }
+
+        ContainerShip.ContainerShip ship = ContainerShips[shipNumber - 1];
+        Container container = FreeContainers[containerIndex - 1];
+
+        ship.AddContainer(container);
+
+        if (ship.Containers.Contains(container))
+        {
+            FreeContainers.RemoveAt(containerIndex - 1);
         }
         else
         {
-            Console.WriteLine($"Container {container} already loaded ");
+            Console.WriteLine($"Failed to add container {container.SerialNumber} to the ship.");
         }
     }
 
@@ -79,10 +87,10 @@ public class ConsoleNavigation : IConsoleNavigation
     public void SwapContainer(int shipNumber, int containerNumber1, int containerNumber2)
     {
         ContainerShip.ContainerShip ship = ContainerShips[shipNumber - 1];
-        Container containerWhich = Containers[containerNumber1];
-        Container containerToSwap = Containers[containerNumber2];
+        Container containerWhich = Containers[containerNumber1 - 1];
+        Container containerToSwap = Containers[containerNumber2 - 1];
         ship.SwapContainers(containerWhich.SerialNumber, containerToSwap.SerialNumber,
-            Containers); 
+            Containers);
     }
 
     public void SwapShips(int shipFrom, int shipTo, int contNumber)
@@ -95,44 +103,47 @@ public class ConsoleNavigation : IConsoleNavigation
 
     public void GetAllContainers()
     {
-        foreach (Container container in Containers)
+        for (int i = 0; i < Containers.Count; i++)
         {
-            Console.WriteLine("     " + container);
+            Console.WriteLine($"{i + 1}. {Containers[i]}");
         }
     }
 
     public void GetAllShips()
     {
-        foreach (ContainerShip.ContainerShip ship in ContainerShips)
+        for (int i = 0; i < ContainerShips.Count; i++)
         {
-            Console.WriteLine("     " + ship);
+            Console.WriteLine($"{i + 1} : {ContainerShips[i]}");
         }
     }
 
     public bool IsContainers()
     {
-        if (Containers.Count>0)
+        if (Containers.Count > 0)
         {
             return true;
         }
+
         return false;
     }
 
     public bool IsShips()
     {
-        if (ContainerShips.Count>0)
+        if (ContainerShips.Count > 0)
         {
             return true;
         }
+
         return false;
     }
 
     public bool IsFree()
     {
-        if (FreeContainers.Count>0)
+        if (FreeContainers.Count > 0)
         {
             return true;
         }
+
         return false;
     }
 
@@ -146,17 +157,25 @@ public class ConsoleNavigation : IConsoleNavigation
         return Containers[shipId - 1];
     }
 
-    public void AllFreeConteiners()
+    public void AllFreeContainers()
     {
-        foreach (Container container in FreeContainers)
+        for (int i = 0; i < FreeContainers.Count; i++)
         {
-            Console.WriteLine("    " + container);
-            
+            Console.WriteLine($"{i + 1}. {FreeContainers[i]}");
         }
     }
 
-    public void LoadListOfContainers(List<Container> containers)
+    public void LoadListOfContainers(int shipId, List<Container> containers)
     {
-        throw new NotImplementedException();
+        ContainerShip.ContainerShip ship = ContainerShips[shipId - 1];
+        if (ship.IsAddList(containers))
+        {
+            ship.LoadListOfContainers(containers);
+            FreeContainers.RemoveAll(container => containers.Contains(container));
+        }
+        else
+        {
+            Console.WriteLine("Cannot load container: ship capacity exceeded.");
+        }
     }
 }
