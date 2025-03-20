@@ -15,7 +15,14 @@ namespace Project1_APBD.Navigation
         {
             while (true)
             {
-                Console.WriteLine("\nList of commands:");
+                
+                Console.WriteLine("List of ships:");
+                _navigation.GetAllShips();
+                Console.WriteLine("List of all containers:");
+                _navigation.GetAllContainers();
+                Console.WriteLine("List if Free containers:");
+                _navigation.AllFreeContainers();
+                
                 Console.WriteLine("\nList of commands:");
                 Console.WriteLine("1. Add a Ship");
                 Console.WriteLine("2. Add a Container");
