@@ -11,7 +11,6 @@ namespace Project1_APBD.Navigation
             Console.WriteLine("Starting Navigation");
             EnterNavigation();
         }
-
         private void EnterNavigation()
         {
             while (true)
