@@ -4,6 +4,5 @@ using Project1_APBD.ContainerShip;
 using Project1_APBD.Navigation;
 
 CommandNavigation commandNavigation = new CommandNavigation();
-
     commandNavigation.StartNavigation();
 

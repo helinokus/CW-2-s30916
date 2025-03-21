@@ -15,11 +15,14 @@ namespace Project1_APBD.Navigation
         {
             while (true)
             {
-                
+                Console.WriteLine("===============================================================");
+                Console.WriteLine("");
                 Console.WriteLine("List of ships:");
                 _navigation.GetAllShips();
+                Console.WriteLine("");
                 Console.WriteLine("List of all containers:");
                 _navigation.GetAllContainers();
+                Console.WriteLine("");
                 Console.WriteLine("List if Free containers:");
                 _navigation.AllFreeContainers();
                 
@@ -183,20 +186,20 @@ namespace Project1_APBD.Navigation
             _navigation.GetShipById(shipId).AllContainers();
             int containerId1 = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Choose second container to swap:");
-            _navigation.GetShipById(shipId).AllContainers();
+            _navigation.AllFreeContainers();
             int containerId2 = Convert.ToInt32(Console.ReadLine());
             _navigation.SwapContainer(shipId, containerId1, containerId2);
         }
 
         private void SwapContainersBetweenShips()
         {
-            Console.WriteLine("Choose first ship to swap containers:");
+            Console.WriteLine("Choose ship to swap container FROM:");
             _navigation.GetAllShips();
             int shipId1 = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Choose second ship to swap containers:");
+            Console.WriteLine("Choose ship to swap containers TO:");
             _navigation.GetAllShips();
             int shipId2 = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Choose container to swap from first ship:");
+            Console.WriteLine("Choose container to swap:");
             _navigation.GetShipById(shipId1).AllContainers();
             int containerId = Convert.ToInt32(Console.ReadLine());
             _navigation.SwapShips(shipId1, shipId2, containerId);

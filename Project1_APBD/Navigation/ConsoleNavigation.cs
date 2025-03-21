@@ -80,7 +80,7 @@ public class ConsoleNavigation : IConsoleNavigation
     public void RemoveContainerFromShip(int containerNumber, int shipNumber)
     {
         ContainerShip.ContainerShip ship = ContainerShips[shipNumber - 1];
-        Container container = Containers[containerNumber - 1];
+        Container container = ship.Containers[containerNumber - 1];
         ship.RemoveContainer(container);
         FreeContainers.Add(container);
     }
@@ -88,18 +88,18 @@ public class ConsoleNavigation : IConsoleNavigation
     public void SwapContainer(int shipNumber, int containerNumber1, int containerNumber2)
     {
         ContainerShip.ContainerShip ship = ContainerShips[shipNumber - 1];
-        Container containerWhich = Containers[containerNumber1 - 1];
-        Container containerToSwap = Containers[containerNumber2 - 1];
-        ship.SwapContainers(containerWhich.SerialNumber, containerToSwap.SerialNumber,
-            Containers);
+        Container container = Containers[containerNumber1 - 1];
+        ship.SwapContainers(containerNumber1);
+        ship.AddContainer(FreeContainers[containerNumber2 - 1]);
+        FreeContainers.RemoveAt(containerNumber2 - 1);
+        FreeContainers.Add(container);
     }
 
     public void SwapShips(int shipFrom, int shipTo, int contNumber)
     {
-        ContainerShip.ContainerShip ship1 = ContainerShips[shipFrom];
-        ContainerShip.ContainerShip ship2 = ContainerShips[shipTo];
-        Container container = Containers[contNumber];
-        ship1.SwapShips(container.SerialNumber, ship2);
+        ContainerShip.ContainerShip ship1 = ContainerShips[shipFrom-1];
+        ContainerShip.ContainerShip ship2 = ContainerShips[shipTo-1];
+        ship1.SwapShips(contNumber, ship2);
     }
 
     public void GetAllContainers()

@@ -45,29 +45,20 @@ public class ContainerShip
         Containers.Remove(container);
     }
 
-    public void SwapContainers(string from, string to, List<Container> containers)
+    public void SwapContainers(int which)
     {
-        int idFrom = Containers.FindIndex(s => s.SerialNumber.Equals(from));
-        Container? c = containers.Find(s => s.SerialNumber.Equals(to));
-        if (c != null)
-        {
-            Containers.RemoveAt(idFrom);
-            Containers.Insert(idFrom, c);
-        }
-        else
-        {
-            Console.WriteLine($"No such container for {from} or {to}");
-        }
+        Containers.RemoveAt(which-1);
     }
 
 
-    public string SwapShips(string cont, ContainerShip to)
+    public string SwapShips(int index, ContainerShip to)
     {
-        Container? c = Containers.Find(s => s.SerialNumber.Equals(cont));
+        Container? c = Containers[index-1];
         if (c == null)
         {
-            return $"No such container for {cont} or {to}";
+            return $"No such container for {index} or {to}";
         }
+
 
         to.AddContainer(c);
         Containers.Remove(c);
@@ -101,9 +92,9 @@ public class ContainerShip
 
     public void AllContainers()
     {
-        foreach (Container container in Containers)
+        for (int i = 0; i < Containers.Count; i++)
         {
-            Console.WriteLine(container);
+            Console.WriteLine($"{i + 1}. {Containers[i]}");
         }
     }
 
