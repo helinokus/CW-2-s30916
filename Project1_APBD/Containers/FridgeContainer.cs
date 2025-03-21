@@ -12,7 +12,7 @@ public class FridgeContainer : Container
         FillDictionary();
         if (!_Fridge.ContainsKey(typeOfProduct))
         {
-            throw new Exception($"Frsidge type {typeOfProduct} does not exist.");
+            throw new Exception($"Fridge type {typeOfProduct} does not exist.");
         }
 
         TypeOfProduct = typeOfProduct;

@@ -15,6 +15,8 @@ public class GasContainer : Container, IHazardNotifier
     public override void UnloadContainer()
     {
         MassOfProducts = Math.Round(MassOfProducts * 0.05 , 4);
+        Console.WriteLine($"Container {SerialNumber} unloaded. 5% of the cargo remains.");
+
     }
 
     public override void LoadContainer(double mass)

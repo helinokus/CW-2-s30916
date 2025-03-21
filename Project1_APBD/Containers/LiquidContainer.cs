@@ -38,5 +38,10 @@ namespace Project1_APBD.Containers
         {
             Console.WriteLine(message);
         }
+        public override string ToString()
+        {
+            return
+                $"{SerialNumber}: Hazardous? - {IsHazardous}, {MassOfProducts} inside, {Height}m height, {OwnMass}kg own mass, with depth {Depth}m and max load {MaxLoad}";
+        }
     }
 }

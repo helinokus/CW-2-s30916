@@ -41,6 +41,7 @@ public class ConsoleNavigation : IConsoleNavigation
         return (FridgeContainer)Containers.Last();
     }
 
+    
     public void LoadContainer(int containerNumber, double mass)
     {
         Container container = Containers[containerNumber - 1];
