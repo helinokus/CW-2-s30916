@@ -112,6 +112,6 @@ public class ContainerShip
 
     public override string ToString()
     {
-        return $"Ship {_id} with containers count: {Containers.Count} "; //TODO: сделать какие именно конты
+        return $"Ship {_id} with containers count: {Containers.Count} ";
     }
 }
