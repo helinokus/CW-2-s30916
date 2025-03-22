@@ -23,7 +23,7 @@ namespace Project1_APBD.Navigation
                 Console.WriteLine("List of all containers:");
                 _navigation.GetAllContainers();
                 Console.WriteLine("");
-                Console.WriteLine("List if Free containers:");
+                Console.WriteLine("List of Free containers:");
                 _navigation.AllFreeContainers();
                 
                 Console.WriteLine("\nList of commands:");
