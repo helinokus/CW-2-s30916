@@ -23,6 +23,11 @@ public class ContainerShip
 
     public void AddContainer(Container container)
     {
+        if (container.MassOfProducts == 0)
+        {
+            Console.WriteLine("You should load products to the container first (choose option 8 to modify container)");
+            return;
+        }
         double totalWeight = Containers.Sum(c => c.MassOfProducts);
         if (Containers.Count >= MaxCountOfContainers || totalWeight + container.MassOfProducts > MaxWeightOfContainers)
         {
