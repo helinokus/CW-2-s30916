@@ -112,6 +112,6 @@ public class ContainerShip
 
     public override string ToString()
     {
-        return $"Ship {_id} with containers count: {Containers.Count} ";
+        return $"Ship {_id} with containers count: {Containers.Count}, speed of {Speed}, max containers count is {MaxCountOfContainers}, max weight of {MaxWeightOfContainers} ";
     }
 }
